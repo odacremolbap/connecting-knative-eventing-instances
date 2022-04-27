@@ -1,0 +1,36 @@
+apiVersion: eventing.knative.dev/v1
+kind: Broker
+metadata:
+  namespace: kn2
+  name: import
+
+---
+
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  namespace: kn2
+  name: all-kn2
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/min-scale: "1"
+    spec:
+      containers:
+      - image: gcr.io/knative-releases/knative.dev/eventing/cmd/event_display
+
+---
+
+kind: Trigger
+apiVersion: eventing.knative.dev/v1
+metadata:
+  namespace: kn2
+  name: all-kn2
+spec:
+  broker: import
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: all-kn2

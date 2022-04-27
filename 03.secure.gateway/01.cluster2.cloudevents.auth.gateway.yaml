@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: kn2
+  name: password1
+type: Opaque
+stringData:
+  password: pw1
+
+---
+
+apiVersion: sources.triggermesh.io/v1alpha1
+kind: CloudEventsSource
+metadata:
+  namespace: kn2
+  name: gateway-auth
+spec:
+  credentials:
+    basicAuths:
+    - username: user1
+      password:
+        valueFromSecret:
+          name: password1
+          key: password
+  path: /mypath
+  sink:
+    ref:
+      apiVersion: eventing.knative.dev/v1
+      kind: Broker
+      name: import
+

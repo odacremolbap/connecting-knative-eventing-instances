@@ -1,0 +1,11 @@
+apiVersion: sources.triggermesh.io/v1alpha1
+kind: CloudEventsSource
+metadata:
+  namespace: kn2
+  name: gateway
+spec:
+  sink:
+    ref:
+      apiVersion: eventing.knative.dev/v1
+      kind: Broker
+      name: import

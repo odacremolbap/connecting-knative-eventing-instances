@@ -1,0 +1,12 @@
+kind: Trigger
+apiVersion: eventing.knative.dev/v1
+metadata:
+  namespace: kn1
+  name: export-to-kn2
+spec:
+  broker: export
+  filter:
+    attributes:
+      type: dev.knative.eventing.plainmessage
+  subscriber:
+    uri: https://cloudeventssource-gateway-kn2.dev.triggermesh.io

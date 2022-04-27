@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  namespace: kn2
+  name: expose-broker
+spec:
+  gateways:
+  - knative-serving/knative-ingress-gateway
+  - knative-serving/knative-local-gateway
+  hosts:
+  - expose-broker.dev.triggermesh.io
+  http:
+  - route:
+    - destination:
+        host: broker-ingress.knative-eventing.svc.cluster.local
+        port:
+          number: 80
+    rewrite:
+      uri: /kn2/import
+
+
+
